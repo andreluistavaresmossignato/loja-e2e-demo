@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Produtos | Nexora</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="catalog.html" class="brand">
+        <span class="brand-title">Nexora</span>
+        <span class="brand-tagline">Tecnologia que acompanha você.</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="catalog.html" class="nav-link active">Catálogo</a>
+        <div id="user-session-info" class="user-info"></div>
+        <a href="cart.html" class="cart-indicator" data-testid="open-cart" aria-label="Ver carrinho de compras">
+          <span>Carrinho</span>
+          <span class="cart-badge" data-testid="cart-count">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Catálogo de Eletrônicos</h1>
+      <p class="page-subtitle">Dispositivos e acessórios selecionados para elevar sua produtividade.</p>
+    </div>
+
+    <!-- Product Grid Container -->
+    <section 
+      class="products-grid" 
+      data-testid="product-list" 
+      aria-label="Lista de produtos disponíveis"
+    >
+      <!-- Products are rendered dynamically from products.js -->
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Nexora &copy; 2026 — Loja demonstrativa para testes automatizados End-to-End.</p>
+  </footer>
+
+  <script src="../js/products.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/catalog.js"></script>
+</body>
+</html>

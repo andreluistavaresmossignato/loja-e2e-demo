@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedido Confirmado | Nexora</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="catalog.html" class="brand">
+        <span class="brand-title">Nexora</span>
+        <span class="brand-tagline">Tecnologia que acompanha você.</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="catalog.html" class="nav-link">Catálogo</a>
+        <div id="user-session-info" class="user-info"></div>
+        <a href="cart.html" class="cart-indicator" data-testid="open-cart" aria-label="Ver carrinho de compras">
+          <span>Carrinho</span>
+          <span class="cart-badge" data-testid="cart-count">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- State when no order exists -->
+    <div class="empty-state" id="no-order-container" style="display: none;">
+      <div class="empty-state-icon" aria-hidden="true">📦</div>
+      <h1 class="empty-state-title">Nenhum pedido recente encontrado</h1>
+      <p class="empty-state-desc">Você ainda não concluiu nenhum pedido nesta sessão demonstrativa.</p>
+      <a href="catalog.html" class="btn btn-primary">Voltar ao Catálogo</a>
+    </div>
+
+    <!-- State when order is confirmed -->
+    <div class="card confirmation-card" id="order-success-container" style="display: none;">
+      <div class="success-icon-badge" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+
+      <h1 class="page-title" data-testid="order-success">Pedido Realizado com Sucesso!</h1>
+      <p class="page-subtitle">Agradecemos sua compra demonstrativa na Nexora.</p>
+
+      <div class="order-code-box">
+        <span class="order-code-label">Identificador do Pedido</span>
+        <span class="order-code-val" data-testid="order-number">NEX-000000</span>
+      </div>
+
+      <div class="alert alert-info" style="text-align: left; margin: 1.5rem 0;" role="region" aria-label="Aviso de compra de teste">
+        <div>
+          <strong>Aviso de Simulação:</strong> Este pedido é meramente ilustrativo para o projeto de automação de testes E2E. Nenhuma cobrança ou entrega física ocorrerá.
+        </div>
+      </div>
+
+      <section class="order-items-breakdown" data-testid="order-summary" aria-label="Resumo dos itens comprados">
+        <h2 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-primary-navy);">
+          Itens Comprados
+        </h2>
+        <div id="confirmed-items-list">
+          <!-- Items populated by JS -->
+        </div>
+        <div class="summary-row total-row" style="margin-top: 0.75rem;">
+          <span>Total do Pedido:</span>
+          <span id="confirmed-total" style="color: var(--color-text-main);">R$ 0,00</span>
+        </div>
+      </section>
+
+      <div style="margin-top: 2rem;">
+        <a href="catalog.html" class="btn btn-primary" data-testid="continue-shopping">
+          Voltar ao Catálogo
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Nexora &copy; 2026 — Loja demonstrativa para testes automatizados End-to-End.</p>
+  </footer>
+
+  <script src="../js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const order = getStorage(STORAGE_KEYS.LAST_ORDER, null);
+      const noOrderContainer = document.getElementById('no-order-container');
+      const successContainer = document.getElementById('order-success-container');
+      const orderNumberEl = document.querySelector('[data-testid="order-number"]');
+      const itemsListEl = document.getElementById('confirmed-items-list');
+      const totalEl = document.getElementById('confirmed-total');
+
+      if (!order || !order.orderNumber || !Array.isArray(order.items) || order.items.length === 0) {
+        if (noOrderContainer) noOrderContainer.style.display = 'block';
+        if (successContainer) successContainer.style.display = 'none';
+        return;
+      }
+
+      if (noOrderContainer) noOrderContainer.style.display = 'none';
+      if (successContainer) successContainer.style.display = 'block';
+
+      if (orderNumberEl) {
+        orderNumberEl.textContent = order.orderNumber;
+      }
+
+      if (itemsListEl) {
+        itemsListEl.innerHTML = order.items.map(item => `
+          <div class="order-item-line">
+            <span>${item.name} <strong>(x${item.quantity})</strong></span>
+            <span>${formatCurrency(item.subtotal)}</span>
+          </div>
+        `).join('');
+      }
+
+      if (totalEl) {
+        totalEl.textContent = formatCurrency(order.total);
+      }
+    });
+  </script>
+</body>
+</html>

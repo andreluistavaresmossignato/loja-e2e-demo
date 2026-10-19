@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar Pedido | Nexora</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="catalog.html" class="brand">
+        <span class="brand-title">Nexora</span>
+        <span class="brand-tagline">Tecnologia que acompanha você.</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="catalog.html" class="nav-link">Catálogo</a>
+        <div id="user-session-info" class="user-info"></div>
+        <a href="cart.html" class="cart-indicator" data-testid="open-cart" aria-label="Ver carrinho de compras">
+          <span>Carrinho</span>
+          <span class="cart-badge" data-testid="cart-count">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Entrega e Finalização</h1>
+      <p class="page-subtitle">Informe os dados para entrega do seu pedido demonstrativo.</p>
+    </div>
+
+    <!-- Empty Cart Warning -->
+    <div class="empty-state" id="checkout-empty-warning" style="display: none;">
+      <div class="empty-state-icon" aria-hidden="true">⚠️</div>
+      <h2 class="empty-state-title">Seu carrinho está vazio</h2>
+      <p class="empty-state-desc">Não é possível realizar checkout sem produtos adicionados ao carrinho.</p>
+      <a href="catalog.html" class="btn btn-primary">Ir para o Catálogo</a>
+    </div>
+
+    <!-- Checkout Content -->
+    <div class="cart-layout" id="checkout-content">
+      <!-- Shipping Form -->
+      <section class="card" style="padding: 2rem;" aria-label="Formulário de Entrega">
+        <div class="alert alert-info" role="region" aria-label="Aviso demonstrativo de pagamento">
+          <div>
+            <strong>Compra Demonstrativa:</strong><br>
+            Este fluxo é destinado exclusivamente para testes automatizados. Nenhum dado de pagamento, cartão ou transação financeira é solicitado.
+          </div>
+        </div>
+
+        <!-- Error Feedback Area -->
+        <div 
+          class="alert alert-danger" 
+          data-testid="checkout-error" 
+          role="alert" 
+          aria-live="assertive" 
+          style="display: none;"
+        ></div>
+
+        <form id="shipping-form" data-testid="checkout-form" novalidate>
+          <div class="form-group">
+            <label for="shipping-name-input" class="form-label">
+              Nome do Destinatário <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="shipping-name-input" 
+              class="form-control" 
+              data-testid="shipping-name" 
+              placeholder="Ex: Maria Silva"
+              required
+            >
+            <span class="form-error" id="error-shipping-name-input" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="shipping-address-input" class="form-label">
+              Endereço Completo (Rua, Número, Bairro) <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="shipping-address-input" 
+              class="form-control" 
+              data-testid="shipping-address" 
+              placeholder="Ex: Av. Paulista, 1000, Apto 42"
+              required
+            >
+            <span class="form-error" id="error-shipping-address-input" aria-live="polite"></span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="shipping-city-input" class="form-label">
+                Cidade <span class="required" aria-hidden="true">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="shipping-city-input" 
+                class="form-control" 
+                data-testid="shipping-city" 
+                placeholder="Ex: São Paulo"
+                required
+              >
+              <span class="form-error" id="error-shipping-city-input" aria-live="polite"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="shipping-zip-input" class="form-label">
+                CEP <span class="required" aria-hidden="true">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="shipping-zip-input" 
+                class="form-control" 
+                data-testid="shipping-zip" 
+                placeholder="01310-100"
+                required
+              >
+              <span class="form-error" id="error-shipping-zip-input" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div style="margin-top: 1rem;">
+            <button 
+              type="submit" 
+              class="btn btn-primary btn-block" 
+              data-testid="place-order"
+            >
+              Finalizar Pedido
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Checkout Summary Sidebar -->
+      <aside class="card summary-card" aria-label="Resumo dos itens">
+        <h2 class="summary-title">Itens do Pedido</h2>
+        <div id="checkout-items-summary">
+          <!-- Dynamic Items Breakdown -->
+        </div>
+
+        <div class="summary-row total-row">
+          <span>Total a Pagar:</span>
+          <span id="checkout-total">R$ 0,00</span>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <a href="cart.html" class="btn btn-secondary btn-block">
+            Modificar Carrinho
+          </a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Nexora &copy; 2026 — Loja demonstrativa para testes automatizados End-to-End.</p>
+  </footer>
+
+  <script src="../js/products.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/checkout.js"></script>
+</body>
+</html>

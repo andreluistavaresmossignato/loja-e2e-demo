@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Nexora - Tecnologia que acompanha você</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="login.html" class="brand">
+        <span class="brand-title">Nexora</span>
+        <span class="brand-tagline">Tecnologia que acompanha você.</span>
+      </a>
+      <nav class="nav-links" aria-label="Navegação secundária">
+        <a href="catalog.html" class="nav-link">Catálogo</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="auth-wrapper">
+      <div class="card auth-card">
+        <div class="page-header" style="text-align: center; margin-bottom: 1.5rem;">
+          <h1 class="page-title">Acessar Conta</h1>
+          <p class="page-subtitle">Entre com suas credenciais demonstrativas para continuar.</p>
+        </div>
+
+        <!-- Demonstration Alert -->
+        <div class="alert alert-info" role="region" aria-label="Aviso demonstrativo">
+          <div>
+            <strong>Ambiente de Demonstração</strong><br>
+            Use as credenciais abaixo para testar o fluxo de compra:<br>
+            <strong>E-mail:</strong> <code>cliente@nexora.demo</code><br>
+            <strong>Senha:</strong> <code>Nexora123</code>
+          </div>
+        </div>
+
+        <!-- Error Feedback Area -->
+        <div 
+          class="alert alert-danger" 
+          data-testid="login-error" 
+          role="alert" 
+          aria-live="assertive" 
+          style="display: none;"
+        ></div>
+
+        <!-- Login Form -->
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label for="login-email-input" class="form-label">
+              E-mail <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="email" 
+              id="login-email-input" 
+              class="form-control" 
+              data-testid="login-email" 
+              placeholder="seu-email@exemplo.com"
+              required
+              autocomplete="username"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="login-password-input" class="form-label">
+              Senha <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input 
+              type="password" 
+              id="login-password-input" 
+              class="form-control" 
+              data-testid="login-password" 
+              placeholder="••••••••"
+              required
+              autocomplete="current-password"
+            >
+          </div>
+
+          <button 
+            type="submit" 
+            class="btn btn-primary btn-block" 
+            data-testid="login-submit"
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Nexora &copy; 2026 — Loja demonstrativa para testes automatizados End-to-End.</p>
+  </footer>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/login.js"></script>
+</body>
+</html>
