@@ -5,10 +5,11 @@
 const STORAGE_KEYS = {
   CART: 'nexora_cart',
   USER: 'nexora_user',
-  LAST_ORDER: 'nexora_last_order'
+  LAST_ORDER: 'nexora_last_order',
+  PENDING_PRODUCT: 'nexora_pending_product'
 };
 
-// Monetary Formatter
+// ─── Monetary Formatter ───────────────────────────────────────────────────────
 function formatCurrency(value) {
   const numeric = typeof value === 'number' && !isNaN(value) ? value : 0;
   return new Intl.NumberFormat('pt-BR', {
@@ -17,7 +18,7 @@ function formatCurrency(value) {
   }).format(numeric);
 }
 
-// Storage Safe Helpers
+// ─── Storage Safe Helpers ─────────────────────────────────────────────────────
 function getStorage(key, defaultValue = null) {
   try {
     const raw = localStorage.getItem(key);
@@ -45,12 +46,52 @@ function removeStorage(key) {
   }
 }
 
-// Cart State Management
+// ─── Authentication ───────────────────────────────────────────────────────────
+function getCurrentUser() {
+  return getStorage(STORAGE_KEYS.USER, null);
+}
+
+function isAuthenticated() {
+  const user = getCurrentUser();
+  return !!(user && user.email);
+}
+
+function setCurrentUser(user) {
+  setStorage(STORAGE_KEYS.USER, user);
+}
+
+function logoutUser() {
+  removeStorage(STORAGE_KEYS.USER);
+  // Carrinho é mantido mas o checkout exige autenticação
+  window.location.href = 'login.html';
+}
+
+/**
+ * Redireciona para login se não autenticado.
+ * @param {string} [returnUrl] - URL de retorno opcional após login.
+ */
+function requireAuth(returnUrl) {
+  if (!isAuthenticated()) {
+    if (returnUrl) {
+      setStorage('nexora_return_url', returnUrl);
+    }
+    window.location.href = 'login.html';
+    return false;
+  }
+  return true;
+}
+
+// ─── Cart State Management ────────────────────────────────────────────────────
 function getCart() {
   const cart = getStorage(STORAGE_KEYS.CART, []);
   if (!Array.isArray(cart)) return [];
-  // Ensure valid item structure
-  return cart.filter(item => item && typeof item.productId === 'string' && typeof item.quantity === 'number' && item.quantity > 0);
+  return cart.filter(
+    item =>
+      item &&
+      typeof item.productId === 'string' &&
+      typeof item.quantity === 'number' &&
+      item.quantity > 0
+  );
 }
 
 function saveCart(cart) {
@@ -91,22 +132,19 @@ function updateCartBadge() {
   });
 }
 
-// User Session Management (Demo only)
-function getCurrentUser() {
-  return getStorage(STORAGE_KEYS.USER, null);
+// ─── Pending product after login ──────────────────────────────────────────────
+function savePendingProduct(productId) {
+  setStorage(STORAGE_KEYS.PENDING_PRODUCT, productId);
 }
 
-function setCurrentUser(user) {
-  setStorage(STORAGE_KEYS.USER, user);
+function consumePendingProduct() {
+  const productId = getStorage(STORAGE_KEYS.PENDING_PRODUCT, null);
+  removeStorage(STORAGE_KEYS.PENDING_PRODUCT);
+  return productId;
 }
 
-function logoutUser() {
-  removeStorage(STORAGE_KEYS.USER);
-  window.location.href = 'login.html';
-}
-
-// UI Feedback Toast
-function showToast(message) {
+// ─── UI Feedback Toast ────────────────────────────────────────────────────────
+function showToast(message, type = 'default') {
   let toastContainer = document.getElementById('toast-container');
   if (!toastContainer) {
     toastContainer = document.createElement('div');
@@ -117,11 +155,10 @@ function showToast(message) {
   }
 
   const toast = document.createElement('div');
-  toast.className = 'toast';
+  toast.className = 'toast' + (type === 'info' ? ' toast-info' : '');
   toast.textContent = message;
   toastContainer.appendChild(toast);
 
-  // Trigger animation
   requestAnimationFrame(() => {
     toast.classList.add('show');
   });
@@ -133,20 +170,20 @@ function showToast(message) {
         toast.parentNode.removeChild(toast);
       }
     }, 300);
-  }, 2500);
+  }, 3000);
 }
 
-// Global initialization on DOM ready
+// ─── Global initialization ────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   updateCartBadge();
 
-  // Populate user badge if element exists
   const userSlot = document.getElementById('user-session-info');
   if (userSlot) {
     const user = getCurrentUser();
     if (user && user.email) {
+      const displayName = user.name || user.email;
       userSlot.innerHTML = `
-        <span>Olá, <strong>${user.email}</strong></span>
+        <span class="user-greeting">Olá, <strong>${displayName}</strong></span>
         <button type="button" class="btn-logout" id="btn-logout">Sair</button>
       `;
       const btnLogout = document.getElementById('btn-logout');

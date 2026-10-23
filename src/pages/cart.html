@@ -29,35 +29,32 @@
   <main class="main-content">
     <div class="page-header">
       <h1 class="page-title">Carrinho de Compras</h1>
-      <p class="page-subtitle">Revise seus itens antes de prosseguir para a entrega.</p>
+      <p class="page-subtitle">Revise seus itens antes de prosseguir.</p>
     </div>
 
     <!-- Empty State -->
     <div class="empty-state" data-testid="empty-cart" style="display: none;">
       <div class="empty-state-icon" aria-hidden="true">🛒</div>
       <h2 class="empty-state-title">Seu carrinho está vazio</h2>
-      <p class="empty-state-desc">Você ainda não adicionou nenhum produto ao carrinho. Explore nosso catálogo e confira nossas ofertas exclusivas.</p>
-      <a href="catalog.html" class="btn btn-primary">Voltar ao Catálogo</a>
+      <p class="empty-state-desc">Explore nosso catálogo e adicione produtos para continuar.</p>
+      <a href="catalog.html" class="btn btn-primary">Continuar Comprando</a>
     </div>
 
-    <!-- Cart Layout with Items & Summary -->
+    <!-- Cart Layout -->
     <div class="cart-layout" id="cart-layout">
-      <!-- Items Section -->
+      <!-- Items -->
       <section aria-label="Itens no carrinho">
         <div class="cart-items-list" data-testid="cart-items">
-          <!-- Rendered dynamically by cart.js -->
+          <!-- Rendered by cart.js -->
         </div>
-
         <div style="margin-top: 1.5rem;">
-          <a href="catalog.html" class="btn btn-secondary">
-            &larr; Continuar Comprando
-          </a>
+          <a href="catalog.html" class="btn btn-secondary">&larr; Continuar Comprando</a>
         </div>
       </section>
 
-      <!-- Order Summary Card -->
+      <!-- Summary -->
       <aside class="card summary-card" aria-label="Resumo do pedido">
-        <h2 class="summary-title">Resumo do Pedido</h2>
+        <h2 class="summary-title">Resumo</h2>
         <div class="summary-row">
           <span>Quantidade:</span>
           <span id="cart-summary-count">0 itens</span>
@@ -71,13 +68,12 @@
           <span style="color: var(--color-success); font-weight: 600;">Grátis</span>
         </div>
         <div class="summary-row total-row">
-          <span>Total Geral:</span>
+          <span>Total:</span>
           <span data-testid="cart-total">R$ 0,00</span>
         </div>
-
         <div class="summary-actions">
           <a href="checkout.html" class="btn btn-primary btn-block" data-testid="go-to-checkout">
-            Prosseguir para o Checkout
+            Ir para o Checkout
           </a>
         </div>
       </aside>
@@ -86,7 +82,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>Nexora &copy; 2026 — Loja demonstrativa para testes automatizados End-to-End.</p>
+    <p>Nexora &copy; 2026</p>
   </footer>
 
   <script src="../js/products.js"></script>

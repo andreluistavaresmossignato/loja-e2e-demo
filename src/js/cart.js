@@ -1,8 +1,12 @@
 /**
  * Nexora - Cart Module
+ * Exige autenticação para acessar e para prosseguir ao checkout.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Guard: carrinho exige login
+  if (!requireAuth()) return;
+
   const cartItemsContainer = document.querySelector('[data-testid="cart-items"]');
   const emptyCartContainer = document.querySelector('[data-testid="empty-cart"]');
   const cartTotalElement = document.querySelector('[data-testid="cart-total"]');
@@ -47,8 +51,16 @@ document.addEventListener('DOMContentLoaded', () => {
       itemEl.setAttribute('data-product-id', product.id);
 
       itemEl.innerHTML = `
-        <div class="cart-item-img" aria-hidden="true">
-          ${product.icon}
+        <div class="cart-item-img">
+          <img
+            src="${product.image}"
+            alt="${product.imageAlt}"
+            class="cart-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          >
+          <div class="cart-img-fallback" style="display:none;" aria-hidden="true">
+            ${product.icon}
+          </div>
         </div>
         <div class="cart-item-details">
           <h2 class="cart-item-name">${product.name}</h2>
@@ -60,9 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="cart-item-quantity" data-testid="cart-item-quantity">${item.quantity}</span>
           </div>
           <div class="cart-item-subtotal">${formatCurrency(subtotal)}</div>
-          <button 
-            type="button" 
-            class="btn btn-danger-outline" 
+          <button
+            type="button"
+            class="btn btn-danger-outline"
             data-testid="remove-item"
             aria-label="Remover ${product.name} do carrinho"
           >

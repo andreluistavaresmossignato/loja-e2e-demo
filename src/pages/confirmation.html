@@ -27,15 +27,15 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <!-- State when no order exists -->
+    <!-- No order state -->
     <div class="empty-state" id="no-order-container" style="display: none;">
       <div class="empty-state-icon" aria-hidden="true">📦</div>
-      <h1 class="empty-state-title">Nenhum pedido recente encontrado</h1>
-      <p class="empty-state-desc">Você ainda não concluiu nenhum pedido nesta sessão demonstrativa.</p>
-      <a href="catalog.html" class="btn btn-primary">Voltar ao Catálogo</a>
+      <h1 class="empty-state-title">Nenhum pedido encontrado</h1>
+      <p class="empty-state-desc">Conclua uma compra para ver a confirmação aqui.</p>
+      <a href="catalog.html" class="btn btn-primary">Ir ao Catálogo</a>
     </div>
 
-    <!-- State when order is confirmed -->
+    <!-- Success state -->
     <div class="card confirmation-card" id="order-success-container" style="display: none;">
       <div class="success-icon-badge" aria-hidden="true">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -43,30 +43,26 @@
         </svg>
       </div>
 
-      <h1 class="page-title" data-testid="order-success">Pedido Realizado com Sucesso!</h1>
-      <p class="page-subtitle">Agradecemos sua compra demonstrativa na Nexora.</p>
+      <h1 class="page-title" data-testid="order-success">Pedido Registrado!</h1>
+      <p class="page-subtitle">Obrigado pela sua compra na Nexora.</p>
 
       <div class="order-code-box">
-        <span class="order-code-label">Identificador do Pedido</span>
+        <span class="order-code-label">Número do Pedido</span>
         <span class="order-code-val" data-testid="order-number">NEX-000000</span>
       </div>
 
-      <div class="alert alert-info" style="text-align: left; margin: 1.5rem 0;" role="region" aria-label="Aviso de compra de teste">
-        <div>
-          <strong>Aviso de Simulação:</strong> Este pedido é meramente ilustrativo para o projeto de automação de testes E2E. Nenhuma cobrança ou entrega física ocorrerá.
-        </div>
-      </div>
-
-      <section class="order-items-breakdown" data-testid="order-summary" aria-label="Resumo dos itens comprados">
+      <section class="order-items-breakdown" data-testid="order-summary" aria-label="Resumo da compra">
         <h2 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-primary-navy);">
           Itens Comprados
         </h2>
-        <div id="confirmed-items-list">
-          <!-- Items populated by JS -->
+        <div id="confirmed-items-list"></div>
+        <div class="summary-row" style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--color-border);">
+          <span style="font-weight: 600;">Pagamento:</span>
+          <span id="confirmed-payment" style="font-weight: 600; color: var(--color-accent-indigo);">—</span>
         </div>
-        <div class="summary-row total-row" style="margin-top: 0.75rem;">
-          <span>Total do Pedido:</span>
-          <span id="confirmed-total" style="color: var(--color-text-main);">R$ 0,00</span>
+        <div class="summary-row total-row" style="margin-top: 0.5rem;">
+          <span>Total:</span>
+          <span id="confirmed-total">R$ 0,00</span>
         </div>
       </section>
 
@@ -80,7 +76,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>Nexora &copy; 2026 — Loja demonstrativa para testes automatizados End-to-End.</p>
+    <p>Nexora &copy; 2026</p>
   </footer>
 
   <script src="../js/common.js"></script>
@@ -92,6 +88,7 @@
       const orderNumberEl = document.querySelector('[data-testid="order-number"]');
       const itemsListEl = document.getElementById('confirmed-items-list');
       const totalEl = document.getElementById('confirmed-total');
+      const paymentEl = document.getElementById('confirmed-payment');
 
       if (!order || !order.orderNumber || !Array.isArray(order.items) || order.items.length === 0) {
         if (noOrderContainer) noOrderContainer.style.display = 'block';
@@ -102,9 +99,7 @@
       if (noOrderContainer) noOrderContainer.style.display = 'none';
       if (successContainer) successContainer.style.display = 'block';
 
-      if (orderNumberEl) {
-        orderNumberEl.textContent = order.orderNumber;
-      }
+      if (orderNumberEl) orderNumberEl.textContent = order.orderNumber;
 
       if (itemsListEl) {
         itemsListEl.innerHTML = order.items.map(item => `
@@ -115,9 +110,12 @@
         `).join('');
       }
 
-      if (totalEl) {
-        totalEl.textContent = formatCurrency(order.total);
+      if (paymentEl && order.paymentMethod) {
+        const labels = { pix: 'Pix', card: 'Cartão de Crédito', boleto: 'Boleto Bancário' };
+        paymentEl.textContent = labels[order.paymentMethod] || order.paymentMethod;
       }
+
+      if (totalEl) totalEl.textContent = formatCurrency(order.total);
     });
   </script>
 </body>

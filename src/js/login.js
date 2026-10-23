@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const passwordInput = document.querySelector('[data-testid="login-password"]');
   const errorElement = document.querySelector('[data-testid="login-error"]');
 
+  // Se já está autenticado, vai direto ao catálogo
+  if (isAuthenticated()) {
+    window.location.href = 'catalog.html';
+    return;
+  }
+
   const DEMO_CREDENTIALS = {
     email: 'cliente@nexora.demo',
     password: 'Nexora123'
@@ -56,9 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
       setCurrentUser({
         email: email,
-        name: 'Cliente Demonstrativo',
+        name: 'Cliente',
         loggedAt: new Date().toISOString()
       });
+
+      // Consome produto pendente (adição solicitada antes do login)
+      const pendingProductId = consumePendingProduct();
+      if (pendingProductId) {
+        addToCart(pendingProductId, 1);
+      }
+
       window.location.href = 'catalog.html';
     } else {
       emailInput.classList.add('is-invalid');
