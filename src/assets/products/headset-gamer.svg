@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <linearGradient id="headband" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <ellipse cx="200" cy="255" rx="100" ry="14" fill="#CBD5E1" opacity="0.6"/>
+  <!-- Headband -->
+  <path d="M 120 160 C 120 80, 280 80, 280 160" fill="none" stroke="url(#headband)" stroke-width="18" stroke-linecap="round" filter="url(#shadow)"/>
+  <path d="M 135 140 C 135 95, 265 95, 265 140" fill="none" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+  <!-- Left earcup -->
+  <g filter="url(#shadow)">
+    <rect x="100" y="145" width="36" height="65" rx="18" fill="#1E293B"/>
+    <rect x="104" y="150" width="28" height="55" rx="14" fill="#0F172A"/>
+    <circle cx="118" cy="177" r="12" fill="none" stroke="url(#glow)" stroke-width="3"/>
+  </g>
+  <!-- Right earcup -->
+  <g filter="url(#shadow)">
+    <rect x="264" y="145" width="36" height="65" rx="18" fill="#1E293B"/>
+    <rect x="268" y="150" width="28" height="55" rx="14" fill="#0F172A"/>
+    <circle cx="282" cy="177" r="12" fill="none" stroke="url(#glow)" stroke-width="3"/>
+  </g>
+  <!-- Mic boom -->
+  <path d="M 118 190 Q 130 230 175 225" fill="none" stroke="#475569" stroke-width="5" stroke-linecap="round"/>
+  <rect x="172" y="218" width="16" height="12" rx="4" fill="#4F46E5"/>
+</svg>

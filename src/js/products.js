@@ -41,6 +41,46 @@ const PRODUCTS = [
     image: '../assets/products/suporte-notebook.jpg',
     imageAlt: 'Suporte metálico para notebook em fundo branco',
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>`
+  },
+  {
+    id: 'headset-gamer-nexora',
+    name: 'Headset Gamer Nexora Surround 7.1',
+    price: 349.90,
+    description: 'Drivers de 50mm, áudio espacial imersivo, microfone com cancelamento de ruído e almofadas respiráveis com memória.',
+    category: 'Áudio',
+    image: '../assets/products/headset-gamer.svg',
+    imageAlt: 'Headset Gamer Nexora com iluminação e microfone',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>`
+  },
+  {
+    id: 'hub-usb-c-nexora',
+    name: 'Hub USB-C 7 em 1 Alumínio Nexora',
+    price: 189.90,
+    description: 'Expansão completa com porta HDMI 4K, 3x USB 3.0, leitor SD/TF e entrega de energia Power Delivery até 100W.',
+    category: 'Acessórios',
+    image: '../assets/products/hub-usb-c.svg',
+    imageAlt: 'Hub multiportas USB-C em corpo de alumínio',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h6v6H9z"></path></svg>`
+  },
+  {
+    id: 'carregador-inducao-nexora',
+    name: 'Carregador por Indução Fast Charge 15W',
+    price: 129.90,
+    description: 'Base ultrafina com tecnologia Qi, compatibilidade universal e proteção térmica com anel luminoso discreto.',
+    category: 'Acessórios',
+    image: '../assets/products/carregador-inducao.svg',
+    imageAlt: 'Base de carregamento sem fio por indução',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m13 8-4 5h4l-2 5 6-7h-4l2-3z"></path></svg>`
+  },
+  {
+    id: 'webcam-fullhd-nexora',
+    name: 'Webcam Nexora Vision Full HD 1080p',
+    price: 249.90,
+    description: 'Sensor CMOS de alta nitidez, microfones duplos estéreo com redução de ruído e tampa de privacidade integrada.',
+    category: 'Periféricos',
+    image: '../assets/products/webcam-fullhd.svg',
+    imageAlt: 'Webcam Nexora Vision com microfone duplo',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M3 7V5a2 2 0 0 1 2-2h2"></path><path d="M17 3h2a2 2 0 0 1 2 2v2"></path><path d="M21 17v2a2 2 0 0 1-2 2h-2"></path><path d="M7 21H5a2 2 0 0 1-2-2v-2"></path></svg>`
   }
 ];
 

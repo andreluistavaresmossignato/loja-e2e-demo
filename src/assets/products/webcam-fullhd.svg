@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <linearGradient id="camBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <radialGradient id="lens" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="40%" stop-color="#1E1B4B"/>
+      <stop offset="80%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </radialGradient>
+    <filter id="shadow4" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg4)"/>
+  <ellipse cx="200" cy="255" rx="80" ry="12" fill="#CBD5E1" opacity="0.6"/>
+  <!-- Monitor clip / base -->
+  <path d="M 175 190 L 225 190 L 235 245 L 165 245 Z" fill="#334155" filter="url(#shadow4)"/>
+  <rect x="185" y="170" width="30" height="25" rx="4" fill="#475569"/>
+  <!-- Camera capsule body -->
+  <g filter="url(#shadow4)">
+    <rect x="120" y="110" width="160" height="65" rx="32.5" fill="url(#camBody)"/>
+    <rect x="122" y="112" width="156" height="61" rx="30.5" fill="none" stroke="#475569" stroke-width="1.5" opacity="0.5"/>
+    <!-- Status LED -->
+    <circle cx="150" cy="142" r="3" fill="#10B981"/>
+    <!-- Stereo mic holes -->
+    <circle cx="165" cy="142" r="1.5" fill="#64748B"/>
+    <circle cx="235" cy="142" r="1.5" fill="#64748B"/>
+    <!-- Central Lens -->
+    <circle cx="200" cy="142" r="24" fill="#020617" stroke="#475569" stroke-width="2"/>
+    <circle cx="200" cy="142" r="18" fill="url(#lens)"/>
+    <circle cx="195" cy="137" r="5" fill="#FFFFFF" opacity="0.6"/>
+  </g>
+</svg>

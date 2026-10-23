@@ -10,6 +10,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const products = window.NEXORA_PRODUCTS || [];
 
+  function closeAllPopovers() {
+    const popovers = document.querySelectorAll('.auth-popover');
+    popovers.forEach(p => p.remove());
+  }
+
+  // Fechar popover ao clicar fora ou com Escape
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.auth-popover') && !e.target.closest('[data-testid="add-to-cart"]')) {
+      closeAllPopovers();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAllPopovers();
+    }
+  });
+
+  function showAuthPopover(targetButton, productId) {
+    closeAllPopovers();
+
+    const popover = document.createElement('div');
+    popover.className = 'auth-popover';
+    popover.setAttribute('role', 'dialog');
+    popover.setAttribute('aria-label', 'Aviso de autenticação');
+
+    popover.innerHTML = `
+      <div class="auth-popover-content">
+        <p class="auth-popover-msg">É necessário entrar na sua conta para adicionar produtos ao carrinho.</p>
+        <div class="auth-popover-actions">
+          <button type="button" class="btn btn-primary btn-sm btn-popover-login" data-testid="popover-login">
+            Fazer login
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm btn-popover-close" data-testid="popover-close" aria-label="Fechar aviso">
+            Fechar
+          </button>
+        </div>
+      </div>
+    `;
+
+    // Posicionar relativo ao botão pai
+    const cardFooter = targetButton.closest('.product-footer') || targetButton.parentElement;
+    if (cardFooter) {
+      cardFooter.style.position = 'relative';
+      cardFooter.appendChild(popover);
+    } else {
+      targetButton.parentElement.appendChild(popover);
+    }
+
+    const loginBtn = popover.querySelector('.btn-popover-login');
+    const closeBtn = popover.querySelector('.btn-popover-close');
+
+    loginBtn.addEventListener('click', () => {
+      savePendingProduct(productId);
+      window.location.href = 'login.html';
+    });
+
+    closeBtn.addEventListener('click', () => {
+      popover.remove();
+      targetButton.focus();
+    });
+  }
+
   function renderProducts() {
     productListContainer.innerHTML = '';
 
@@ -50,14 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       const addBtn = card.querySelector('[data-testid="add-to-cart"]');
-      addBtn.addEventListener('click', () => {
+      addBtn.addEventListener('click', (e) => {
         if (!isAuthenticated()) {
-          // Preserva intenção e redireciona para login
-          savePendingProduct(product.id);
-          showToast('Entre na sua conta para adicionar produtos ao carrinho.', 'info');
-          setTimeout(() => {
-            window.location.href = 'login.html';
-          }, 1200);
+          showAuthPopover(addBtn, product.id);
           return;
         }
         addToCart(product.id, 1);

@@ -42,15 +42,31 @@ test.describe('Acesso e autenticação', () => {
     await expect(page.getByTestId('product-price').first()).toBeVisible();
   });
 
-  test('2. Visitante não autenticado é redirecionado ao login ao tentar adicionar ao carrinho', async ({ page }) => {
+  test('2. Visitante não autenticado vê popover de login ao tentar adicionar ao carrinho', async ({ page }) => {
     await clearAppStorage(page);
     await page.goto('/pages/catalog.html');
 
     // Clica em "Adicionar" sem estar logado
     await page.getByTestId('product-card').first().getByTestId('add-to-cart').click();
 
-    // Deve redirecionar para login (aguarda a navegação)
-    await expect(page).toHaveURL(/login\.html/, { timeout: 5000 });
+    // Deve exibir o popover com opção de fazer login e fechar
+    await expect(page.getByTestId('popover-login')).toBeVisible();
+    await expect(page.getByTestId('popover-close')).toBeVisible();
+
+    // Fechar popover com botão fechar
+    await page.getByTestId('popover-close').click();
+    await expect(page.getByTestId('popover-login')).not.toBeVisible();
+
+    // Reabrir popover e testar tecla Escape
+    await page.getByTestId('product-card').first().getByTestId('add-to-cart').click();
+    await expect(page.getByTestId('popover-login')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByTestId('popover-login')).not.toBeVisible();
+
+    // Reabrir e clicar em "Fazer login" encaminha para login
+    await page.getByTestId('product-card').first().getByTestId('add-to-cart').click();
+    await page.getByTestId('popover-login').click();
+    await expect(page).toHaveURL(/login\.html/);
   });
 
   test('3. Após login válido, usuário consegue adicionar produtos', async ({ page }) => {
@@ -275,13 +291,13 @@ test.describe('Fluxo de compra', () => {
 // =============================================================================
 test.describe('Interface, imagens e seletores', () => {
 
-  test('17. Imagens dos quatro produtos carregam ou exibem fallback', async ({ page }) => {
+  test('17. Imagens dos produtos carregam ou exibem fallback', async ({ page }) => {
     await page.goto('/pages/catalog.html');
     const cards = page.getByTestId('product-card');
-    await expect(cards).toHaveCount(4);
+    await expect(cards).toHaveCount(8);
 
     // Para cada cartão, verifica que há um elemento de imagem (img ou fallback svg)
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 8; i++) {
       const card = cards.nth(i);
       const img = card.locator('img.product-img');
       await expect(img).toBeVisible();
@@ -300,7 +316,27 @@ test.describe('Interface, imagens e seletores', () => {
     await page.getByRole('link', { name: /Continuar Comprando/i }).click();
     await expect(page).toHaveURL(/catalog\.html/);
 
-    // Catálogo → Login (via logout)
+    // Menu do usuário: abre, fecha ao clicar fora, fecha com Escape e permite logout
+    const trigger = page.locator('#user-menu-trigger');
+    const menu = page.locator('#user-dropdown-menu');
+
+    // Abre ao clicar
+    await trigger.click();
+    await expect(menu).toBeVisible();
+
+    // Fecha com Escape
+    await page.keyboard.press('Escape');
+    await expect(menu).not.toBeVisible();
+
+    // Abre novamente e clica fora para fechar
+    await trigger.click();
+    await expect(menu).toBeVisible();
+    await page.getByTestId('product-list').click();
+    await expect(menu).not.toBeVisible();
+
+    // Abre e clica em Sair
+    await trigger.click();
+    await expect(menu).toBeVisible();
     await page.locator('#btn-logout').click();
     await expect(page).toHaveURL(/login\.html/);
   });

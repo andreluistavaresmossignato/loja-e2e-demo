@@ -183,10 +183,66 @@ document.addEventListener('DOMContentLoaded', () => {
     if (user && user.email) {
       const displayName = user.name || user.email;
       userSlot.innerHTML = `
-        <span class="user-greeting">Olá, <strong>${displayName}</strong></span>
-        <button type="button" class="btn-logout" id="btn-logout">Sair</button>
+        <div class="user-menu-wrapper">
+          <button
+            type="button"
+            class="user-menu-trigger"
+            id="user-menu-trigger"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Menu do usuário"
+          >
+            <span class="user-greeting">Olá, <strong>${displayName}</strong></span>
+            <span class="user-menu-chevron" aria-hidden="true">▾</span>
+          </button>
+          <div class="user-dropdown-menu" id="user-dropdown-menu" role="menu" aria-label="Opções do usuário" style="display: none;">
+            <button type="button" class="btn-logout-item" id="btn-logout" role="menuitem">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Sair
+            </button>
+          </div>
+        </div>
       `;
+
+      const trigger = document.getElementById('user-menu-trigger');
+      const menu = document.getElementById('user-dropdown-menu');
       const btnLogout = document.getElementById('btn-logout');
+
+      function toggleMenu(open) {
+        const isOpen = open !== undefined ? open : menu.style.display !== 'none';
+        if (isOpen) {
+          menu.style.display = 'none';
+          trigger.setAttribute('aria-expanded', 'false');
+        } else {
+          menu.style.display = 'block';
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      }
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      // Fechar ao clicar fora
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.user-menu-wrapper')) {
+          toggleMenu(true);
+        }
+      });
+
+      // Fechar com tecla Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.style.display !== 'none') {
+          toggleMenu(true);
+          trigger.focus();
+        }
+      });
+
       if (btnLogout) {
         btnLogout.addEventListener('click', logoutUser);
       }
