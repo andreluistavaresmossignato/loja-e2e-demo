@@ -85,7 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const removeBtn = itemEl.querySelector('[data-testid="remove-item"]');
       removeBtn.addEventListener('click', () => {
-        removeFromCart(product.id);
+        const cart = getCart();
+        const itemIndex = cart.findIndex(i => i.productId === product.id);
+        if (itemIndex > -1) {
+          if (cart[itemIndex].quantity > 1) {
+            cart[itemIndex].quantity -= 1;
+            saveCart(cart);
+          } else {
+            removeFromCart(product.id);
+          }
+        }
         showToast(`"${product.name}" removido do carrinho.`);
         renderCart();
       });
